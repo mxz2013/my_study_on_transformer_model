@@ -59,7 +59,8 @@ class MultiHeadAttention(nn.Module):
         # Combine the multiple heads back to original shape
         batch_size, _, seq_length, d_k = x.size()
         # here we make x in dim batch_size, seq_length, n_heads, d_k, -> batch_size, seq_length, d_model
-        # he .contiguous() method in PyTorch ensures that the tensor's memory layout is contiguous in the expected order. This step is crucial because the subsequent .view() operation relies on a contiguous memory block to correctly reshape the data.
+        # the .contiguous() method in PyTorch ensures that the tensor's memory layout is contiguous in the expected order.
+        # This step is crucial because the subsequent .view() operation relies on a contiguous memory block to correctly reshape the data.
         return x.transpose(1, 2).contiguous().view(batch_size, seq_length, self.d_model)
 
     def forward(self, Q, K, V, mask=None):
